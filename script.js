@@ -11,6 +11,7 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
+  // Early return for attempted divide by zero.
   if (num2 == 0) {
     return "Can't divide by zero";
   }
@@ -18,21 +19,71 @@ function divide(num1, num2) {
   return num1 / num2;
 }
 
-function operate(num1, num2, operator) {
-  // Mapping operator to functions.
+function operate(num1, num2, symbol) {
+  // Mapping symbol to functions.
   let calculations = {
     "+": add,
     "-": subtract,
-    "*": multiply,
-    "/": divide,
+    x: multiply,
+    "%": divide,
   };
 
-  // Calling function mapped to operator.
-  return calculations[operator](num1, num2);
+  // Calling function mapped to symbol.
+  return calculations[symbol](num1, num2);
 }
 
-firstOperator = null;
-secondOperator = null;
-operator = null;
+function isDigit(str) {
+  // Returns true if the string is a digit.
+  return !isNaN(str) && !isNaN(parseFloat(str));
+}
 
-console.log(operate(1, 2, "+"));
+function updateDisplay(num1, num2, symbol) {
+  // Updates the display based on the numbers and symbol.
+  const display = document.querySelector(".display");
+
+  let displayText = "";
+
+  if (num1) {
+    displayText += num1;
+  }
+
+  if (symbol) {
+    displayText += symbol;
+  }
+  
+  if (num2 && symbol) {
+    displayText += num2;
+  }
+  console.log(displayText);
+}
+
+// Initial values
+firstNumber = 0;
+secondNumber = 0;
+symbol = null;
+
+// Select all buttons
+const buttons = document.querySelectorAll("button");
+
+// Listen for a click of each button
+buttons.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    let buttonContent = event.target.textContent;
+    console.log(["+", "-", "x"].includes(buttonContent));
+
+    if (isDigit(buttonContent)) {
+      // Check if the first number has already been set.
+      if (symbol === null) {
+        firstNumber += buttonContent
+      } else {
+        secondNumber += buttonContent
+      }
+
+      console.log(firstNumber, secondNumber);
+    } else if (["+", "-", "x"].includes(buttonContent)) {
+      symbol = buttonContent;
+    }
+
+    updateDisplay(firstNumber, secondNumber, symbol);
+  });
+});
