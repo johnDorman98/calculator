@@ -58,8 +58,8 @@ function updateDisplay(num1, num2, symbol) {
 }
 
 // Initial values
-firstNumber = 0;
-secondNumber = 0;
+firstNumber = "";
+secondNumber = "";
 symbol = null;
 
 // Select all buttons
@@ -69,7 +69,6 @@ const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     let buttonContent = event.target.textContent;
-    console.log(["+", "-", "x"].includes(buttonContent));
 
     if (isDigit(buttonContent)) {
       // Check if the first number has already been set.
@@ -79,8 +78,7 @@ buttons.forEach((button) => {
         secondNumber += buttonContent
       }
 
-      console.log(firstNumber, secondNumber);
-    } else if (["+", "-", "x"].includes(buttonContent)) {
+    } else if (["+", "-", "x", "%"].includes(buttonContent)) {
       symbol = buttonContent;
     }
 
