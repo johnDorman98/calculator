@@ -20,6 +20,10 @@ function divide(num1, num2) {
 }
 
 function operate(num1, num2, symbol) {
+  // TODO:
+  // Validate num1 and num2 inputs
+  // Restructure map to switch case.
+
   // Mapping symbol to functions.
   let calculations = {
     "+": add,
@@ -72,6 +76,8 @@ buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     let buttonContent = event.target.textContent;
     console.log(buttonContent);
+    console.log(symbol);
+
     console.log(totalCalculated);
 
     if (isDigit(buttonContent)) {
@@ -83,10 +89,14 @@ buttons.forEach((button) => {
       }
     } else if (
       ["+", "-", "x", "%"].includes(buttonContent) &&
-      symbol === null
+      symbol === null &&
+      firstNumber !== ""
     ) {
       symbol = buttonContent;
     }
+
+    // TODO:
+    // Adjust logic to calculate result when "=" pressed or when operator pressed more than once.
 
     if (
       buttonContent === "=" &&
@@ -94,7 +104,7 @@ buttons.forEach((button) => {
       secondNumber !== "" &&
       symbol
     ) {
-      firstNumber = operate(Number(firstNumber), Number(secondNumber), symbol);
+      firstNumber = operate(firstNumber, secondNumber, symbol);
       totalCalculated = true;
       symbol = null;
       secondNumber = "";
