@@ -50,17 +50,19 @@ function updateDisplay(num1, num2, symbol) {
   if (symbol) {
     displayText += symbol;
   }
-  
+
   if (num2 && symbol) {
     displayText += num2;
   }
-  console.log(displayText);
+
+  display.textContent = displayText;
 }
 
 // Initial values
-firstNumber = "";
-secondNumber = "";
-symbol = null;
+let firstNumber = "";
+let secondNumber = "";
+let symbol = null;
+let totalCalculated = false;
 
 // Select all buttons
 const buttons = document.querySelectorAll("button");
@@ -69,17 +71,33 @@ const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     let buttonContent = event.target.textContent;
+    console.log(buttonContent);
+    console.log(totalCalculated);
 
     if (isDigit(buttonContent)) {
       // Check if the first number has already been set.
-      if (symbol === null) {
-        firstNumber += buttonContent
-      } else {
-        secondNumber += buttonContent
+      if (symbol === null && !totalCalculated) {
+        firstNumber += buttonContent;
+      } else if (symbol !== null) {
+        secondNumber += buttonContent;
       }
-
-    } else if (["+", "-", "x", "%"].includes(buttonContent)) {
+    } else if (
+      ["+", "-", "x", "%"].includes(buttonContent) &&
+      symbol === null
+    ) {
       symbol = buttonContent;
+    }
+
+    if (
+      buttonContent === "=" &&
+      firstNumber !== "" &&
+      secondNumber !== "" &&
+      symbol
+    ) {
+      firstNumber = operate(Number(firstNumber), Number(secondNumber), symbol);
+      totalCalculated = true;
+      symbol = null;
+      secondNumber = "";
     }
 
     updateDisplay(firstNumber, secondNumber, symbol);
