@@ -24,16 +24,21 @@ function operate(num1, num2, symbol) {
   // Validate num1 and num2 inputs
   // Restructure map to switch case.
 
-  // Mapping symbol to functions.
-  let calculations = {
-    "+": add,
-    "-": subtract,
-    x: multiply,
-    "%": divide,
-  };
+  // Convert num1 and num2 to Number.
+  num1 = Number(num1);
+  num2 = Number(num2);
 
-  // Calling function mapped to symbol.
-  return calculations[symbol](num1, num2);
+  // Return calculated result based on symbol.
+  switch (symbol) {
+    case "+":
+      return add(num1, num2);
+    case "-":
+      return subtract(num1, num2);
+    case "*":
+      return multiply(num1, num2);
+    case "/":
+      return divide(num1, num2);
+  }
 }
 
 function isDigit(str) {
@@ -69,6 +74,8 @@ buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     // Use button content to identify button pressed.
     let buttonContent = event.target.textContent;
+    console.log(firstNumber, secondNumber, symbol);
+    console.log(buttonContent);
 
     // IF buttonContent = integer or float
     // IF totalCalculated = true AND symbol = null
@@ -115,12 +122,6 @@ buttons.forEach((button) => {
       }
     }
 
-    // Set the symbol when a valid operator is entered.
-    if (symbolEntered(buttonContent) && symbol === null) {
-      symbol = buttonContent;
-      // TODO: highlight selected symbol in the DOM.
-    }
-
     // Perform calculation if "=" is pressed or symbol is pressed for completed equation.
     if (
       buttonContent === "=" ||
@@ -144,7 +145,13 @@ buttons.forEach((button) => {
       }
 
       // Reset second number for next equation.
-      secondNumber = ""
+      secondNumber = "";
+    }
+
+    // Set the symbol when a valid operator is entered.
+    if (symbolEntered(buttonContent) && symbol === null) {
+      symbol = buttonContent;
+      // TODO: highlight selected symbol in the DOM.
     }
   });
 });
