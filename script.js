@@ -41,26 +41,12 @@ function isDigit(str) {
   return !isNaN(str) && !isNaN(parseFloat(str));
 }
 
-function updateDisplay(num1, num2, symbol) {
-  // Updates the display based on the numbers and symbol.
-  const display = document.querySelector(".display");
-
-  let displayText = "";
-
-  if (num1) {
-    displayText += num1;
-  }
-
-  if (symbol) {
-    displayText += symbol;
-  }
-
-  if (num2 && symbol) {
-    displayText += num2;
-  }
-
-  display.textContent = displayText;
+function updateDisplay(number) {
+  // INIT displayElement = GET display from DOM
+  // SET displayElement = number
 }
+
+// TODO create clear function.
 
 // Initial values
 let firstNumber = "";
@@ -74,42 +60,30 @@ const buttons = document.querySelectorAll("button");
 // Listen for a click of each button
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
+    // Use button content to identify button pressed.
     let buttonContent = event.target.textContent;
-    console.log(buttonContent);
-    console.log(symbol);
 
-    console.log(totalCalculated);
+    // IF buttonContent = integer or float
+      // IF totalCalculated = true AND symbol = null
+        // CALL clear to start new calculation
+      // ENDIF
+      // IF symbol = null
+       // SET firstNumber += buttonContent
+      // ELSE
+       // SET secondNumber += buttonContent
+      // ENDIF
+      // CALL updateDisplay passing buttonContent
+    // ENDIF
 
-    if (isDigit(buttonContent)) {
-      // Check if the first number has already been set.
-      if (symbol === null && !totalCalculated) {
-        firstNumber += buttonContent;
-      } else if (symbol !== null) {
-        secondNumber += buttonContent;
-      }
-    } else if (
-      ["+", "-", "x", "%"].includes(buttonContent) &&
-      symbol === null &&
-      firstNumber !== ""
-    ) {
-      symbol = buttonContent;
-    }
-
-    // TODO:
-    // Adjust logic to calculate result when "=" pressed or when operator pressed more than once.
-
-    if (
-      buttonContent === "=" &&
-      firstNumber !== "" &&
-      secondNumber !== "" &&
-      symbol
-    ) {
-      firstNumber = operate(firstNumber, secondNumber, symbol);
-      totalCalculated = true;
-      symbol = null;
-      secondNumber = "";
-    }
-
-    updateDisplay(firstNumber, secondNumber, symbol);
+    // IF buttonContent = "=" OR (buttonContent in ["+", "-", "/", "*"] AND symbol != null)
+      // INIT result
+      // SET result = value returned from CALL operate PASSING firstNumber, secondNumber, and symbol.
+      // CALL updateDisplay passing buttonContent
+      // SET firstNumber = result
+      // SET totalCalculated = true
+      // IF buttonContent in ["+", "-", "/", "*"]
+        // SET symbol = buttonContent
+      // ENDIF
+    // ENDIF
   });
 });
