@@ -107,6 +107,7 @@ buttons.forEach((button) => {
     // Add to firstNumber or secondNumber when an integer or float is entered.
     if (isDigit(buttonContent)) {
       if (totalCalculated && symbol !== null) {
+        // TODO: Complete logic for result override when second number pressed.
         // CALL clear() to reset calculation.
       }
 
@@ -155,3 +156,12 @@ buttons.forEach((button) => {
     }
   });
 });
+
+// TODO:
+// Limit display length
+// Round output to two decimal places
+// Implement clear logic
+// Prevent divide by 0 errors.
+// Enable "." to allow users to enter a decimal number
+// Add "backspace" button to undo last input if wrong number entered.
+// Add keyboard support.
