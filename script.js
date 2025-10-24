@@ -44,9 +44,16 @@ function isDigit(str) {
 function updateDisplay(number) {
   // INIT displayElement = GET display from DOM
   // SET displayElement = number
+
+  const displayElement = document.querySelector(".display");
+  displayElement.textContent = number;
 }
 
-// TODO create clear function.
+function symbolEntered(buttonContent) {
+  return ["+", "-", "/", "*"].includes(buttonContent);
+}
+
+// TODO: create clear function.
 
 // Initial values
 let firstNumber = "";
@@ -64,26 +71,80 @@ buttons.forEach((button) => {
     let buttonContent = event.target.textContent;
 
     // IF buttonContent = integer or float
-      // IF totalCalculated = true AND symbol = null
-        // CALL clear to start new calculation
-      // ENDIF
-      // IF symbol = null
-       // SET firstNumber += buttonContent
-      // ELSE
-       // SET secondNumber += buttonContent
-      // ENDIF
-      // CALL updateDisplay passing buttonContent
+    // IF totalCalculated = true AND symbol = null
+    // CALL clear to start new calculation
+    // ENDIF
+    // IF symbol = null AND totalCalculated = false
+    // SET firstNumber += buttonContent
+    // ELSE
+    // SET secondNumber += buttonContent
+    // ENDIF
+    // CALL updateDisplay passing buttonContent
+    // ENDIF
+
+    // IF buttonContent in ["+", "-", "/", "*"] AND symbol = null
+    // SET symbol = button content
     // ENDIF
 
     // IF buttonContent = "=" OR (buttonContent in ["+", "-", "/", "*"] AND symbol != null)
-      // INIT result
-      // SET result = value returned from CALL operate PASSING firstNumber, secondNumber, and symbol.
-      // CALL updateDisplay passing buttonContent
-      // SET firstNumber = result
-      // SET totalCalculated = true
-      // IF buttonContent in ["+", "-", "/", "*"]
-        // SET symbol = buttonContent
-      // ENDIF
+    // INIT result
+    // SET result = value returned from CALL operate PASSING firstNumber, secondNumber, and symbol.
+    // CALL updateDisplay passing buttonContent
+    // SET firstNumber = result
+    // SET totalCalculated = true
+    // IF buttonContent in ["+", "-", "/", "*"]
+    // SET symbol = buttonContent
     // ENDIF
+    // ENDIF
+
+    // Add to firstNumber or secondNumber when an integer or float is entered.
+    if (isDigit(buttonContent)) {
+      if (totalCalculated && symbol !== null) {
+        // CALL clear() to reset calculation.
+      }
+
+      // Continue to add to firstNumber until symbol is entered.
+      if (symbol === null && totalCalculated === false) {
+        firstNumber += buttonContent;
+        // Update display
+        updateDisplay(firstNumber);
+      } else {
+        secondNumber += buttonContent;
+        // Update display
+        updateDisplay(secondNumber);
+      }
+    }
+
+    // Set the symbol when a valid operator is entered.
+    if (symbolEntered(buttonContent) && symbol === null) {
+      symbol = buttonContent;
+      // TODO: highlight selected symbol in the DOM.
+    }
+
+    // Perform calculation if "=" is pressed or symbol is pressed for completed equation.
+    if (
+      buttonContent === "=" ||
+      (symbolEntered(buttonContent) && symbol !== null)
+    ) {
+      // Calculate result
+      let result = operate(firstNumber, secondNumber, symbol);
+      // Use the result as the firstNumber in follow equation.
+      firstNumber = result;
+
+      // Update display with new firstNumber.
+      updateDisplay(firstNumber);
+
+      totalCalculated = true;
+
+      // Set symbol for next equation.
+      if (symbolEntered(buttonContent)) {
+        symbol = buttonContent;
+      } else {
+        symbol = null;
+      }
+
+      // Reset second number for next equation.
+      secondNumber = ""
+    }
   });
 });
