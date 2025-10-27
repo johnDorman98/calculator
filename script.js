@@ -47,6 +47,9 @@ function isDigit(str) {
 }
 
 function updateDisplay(number) {
+  // TODO
+  // Limit display length to 15 digits
+  // Round output to two decimal places
   // INIT displayElement = GET display from DOM
   // SET displayElement = number
 
@@ -59,7 +62,7 @@ function symbolEntered(buttonContent) {
 }
 
 function bothNumbersProvided() {
-  return firstNumber !== "" && secondNumber !== ""
+  return firstNumber !== "" && secondNumber !== "";
 }
 
 // TODO: create clear function.
@@ -84,10 +87,6 @@ buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     // Use button content to identify button pressed.
     let buttonContent = event.target.textContent;
-    console.log(totalCalculated);
-    
-    console.log(`${firstNumber} ${symbol} ${secondNumber}`);
-    
 
     // IF buttonContent = integer or float
     // IF totalCalculated = true AND symbol = null
@@ -119,7 +118,6 @@ buttons.forEach((button) => {
     // Add to firstNumber or secondNumber when an integer or float is entered.
     if (isDigit(buttonContent)) {
       if (totalCalculated && symbol === null) {
-        // TODO: Complete logic for result override when second number pressed.
         // CALL clear() to reset calculation.
         clear();
         updateDisplay("");
@@ -173,15 +171,10 @@ buttons.forEach((button) => {
       clear();
       updateDisplay("");
     }
-
-    console.log(`${firstNumber} ${symbol} ${secondNumber}`);
   });
 });
 
 // TODO:
-// Limit display length
-// Round output to two decimal places
-// Implement clear logic
 // Prevent divide by 0 errors.
 // Enable "." to allow users to enter a decimal number
 // Add "backspace" button to undo last input if wrong number entered.
