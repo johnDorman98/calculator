@@ -58,7 +58,17 @@ function symbolEntered(buttonContent) {
   return ["+", "-", "/", "*"].includes(buttonContent);
 }
 
+function bothNumbersProvided() {
+  return firstNumber !== "" && secondNumber !== ""
+}
+
 // TODO: create clear function.
+function clear() {
+  firstNumber = "";
+  secondNumber = "";
+  symbol = null;
+  totalCalculated = false;
+}
 
 // Initial values
 let firstNumber = "";
@@ -74,8 +84,10 @@ buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     // Use button content to identify button pressed.
     let buttonContent = event.target.textContent;
-    console.log(firstNumber, secondNumber, symbol);
-    console.log(buttonContent);
+    console.log(totalCalculated);
+    
+    console.log(`${firstNumber} ${symbol} ${secondNumber}`);
+    
 
     // IF buttonContent = integer or float
     // IF totalCalculated = true AND symbol = null
@@ -106,9 +118,11 @@ buttons.forEach((button) => {
 
     // Add to firstNumber or secondNumber when an integer or float is entered.
     if (isDigit(buttonContent)) {
-      if (totalCalculated && symbol !== null) {
+      if (totalCalculated && symbol === null) {
         // TODO: Complete logic for result override when second number pressed.
         // CALL clear() to reset calculation.
+        clear();
+        updateDisplay("");
       }
 
       // Continue to add to firstNumber until symbol is entered.
@@ -123,10 +137,16 @@ buttons.forEach((button) => {
       }
     }
 
+    // Set the symbol when a valid operator is entered.
+    if (symbolEntered(buttonContent) && symbol === null) {
+      symbol = buttonContent;
+      // TODO: highlight selected symbol in the DOM.
+    }
+
     // Perform calculation if "=" is pressed or symbol is pressed for completed equation.
     if (
-      buttonContent === "=" ||
-      (symbolEntered(buttonContent) && symbol !== null)
+      (bothNumbersProvided() && buttonContent === "=") ||
+      (bothNumbersProvided() && symbolEntered(buttonContent) && symbol !== null)
     ) {
       // Calculate result
       let result = operate(firstNumber, secondNumber, symbol);
@@ -149,11 +169,12 @@ buttons.forEach((button) => {
       secondNumber = "";
     }
 
-    // Set the symbol when a valid operator is entered.
-    if (symbolEntered(buttonContent) && symbol === null) {
-      symbol = buttonContent;
-      // TODO: highlight selected symbol in the DOM.
+    if (buttonContent === "CLEAR") {
+      clear();
+      updateDisplay("");
     }
+
+    console.log(`${firstNumber} ${symbol} ${secondNumber}`);
   });
 });
 
