@@ -36,7 +36,7 @@ function operate(num1, num2, symbol) {
       return subtract(num1, num2);
     case "*":
       return multiply(num1, num2);
-    case "/":
+    case "%":
       return divide(num1, num2);
   }
 }
@@ -47,18 +47,17 @@ function isDigit(str) {
 }
 
 function updateDisplay(number) {
-  // TODO
-  // Limit display length to 15 digits
-  // Round output to two decimal places
   // INIT displayElement = GET display from DOM
   // SET displayElement = number
 
+  let roundedNumber = parseFloat(Number(number).toFixed(2))
+
   const displayElement = document.querySelector(".display");
-  displayElement.textContent = number;
+  displayElement.textContent = roundedNumber;
 }
 
 function symbolEntered(buttonContent) {
-  return ["+", "-", "/", "*"].includes(buttonContent);
+  return ["+", "-", "%", "*"].includes(buttonContent);
 }
 
 function bothNumbersProvided() {
@@ -117,18 +116,24 @@ buttons.forEach((button) => {
 
     // Add to firstNumber or secondNumber when an integer or float is entered.
     if (isDigit(buttonContent)) {
+      if (firstNumber.length >= 12 || secondNumber.length >= 12) {
+        alert("Numbers cannot be longer than 12 digits")
+      }
+
       if (totalCalculated && symbol === null) {
         // CALL clear() to reset calculation.
         clear();
         updateDisplay("");
       }
 
+      // TODO: Limit length of first and second number
+
       // Continue to add to firstNumber until symbol is entered.
-      if (symbol === null && totalCalculated === false) {
+      if (symbol === null && totalCalculated === false && firstNumber.length <= 12) {
         firstNumber += buttonContent;
         // Update display
         updateDisplay(firstNumber);
-      } else {
+      } else if (symbol !== null && secondNumber.length <= 12) {
         secondNumber += buttonContent;
         // Update display
         updateDisplay(secondNumber);
