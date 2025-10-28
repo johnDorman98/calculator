@@ -114,9 +114,14 @@ buttons.forEach((button) => {
         // Update display
         updateDisplay(firstNumber);
       } else if (symbol !== null && secondNumber.length <= 12) {
-        secondNumber += buttonContent;
-        // Update display
-        updateDisplay(secondNumber);
+        // Prevent divisions by zero.
+        if (symbol === "%" && buttonContent === "0") {
+          alert("Cannot divide by zero, please enter another number.")
+        } else { 
+          secondNumber += buttonContent;
+          // Update display
+          updateDisplay(secondNumber);
+        }
       }
     }
 
@@ -142,6 +147,7 @@ buttons.forEach((button) => {
     ) {
       // Calculate result
       let result = operate(firstNumber, secondNumber, symbol);
+      
       // Use the result as the firstNumber in follow equation.
       firstNumber = result;
 
@@ -169,7 +175,6 @@ buttons.forEach((button) => {
 });
 
 // TODO:
-// Enable "." to allow users to enter a decimal number
 // Prevent divide by 0 errors.
 // Add "backspace" button to undo last input if wrong number entered.
 // Add keyboard support.
