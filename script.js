@@ -50,22 +50,34 @@ function updateDisplay(number) {
   // INIT displayElement = GET display from DOM
   // SET displayElement = number
 
-  let roundedNumber = parseFloat(Number(number).toFixed(2))
+  // Ensure that numbers ending in a decimal are updated in the display.
+  if (String(number).charAt(number.length -1) !== ".") {
+    // Round number to two decimal places.
+    number = parseFloat(Number(number).toFixed(2))
+  }
 
+  // Ensure number is limited to 12 digits.
+  if (number > 12) {
+    number = String(number).substring(0, 12);
+  }
+
+  // Update display with rounded number.
   const displayElement = document.querySelector(".display");
-  displayElement.textContent = roundedNumber;
+  displayElement.textContent = number;
 }
 
 function symbolEntered(buttonContent) {
+  // Returns true if a valid symbol is provided.
   return ["+", "-", "%", "*"].includes(buttonContent);
 }
 
 function bothNumbersProvided() {
+  // Helper function to ensure that both numbers have been provided.
   return firstNumber !== "" && secondNumber !== "";
 }
 
-// TODO: create clear function.
 function clear() {
+  // Reset state variables.
   firstNumber = "";
   secondNumber = "";
   symbol = null;
@@ -86,47 +98,15 @@ buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     // Use button content to identify button pressed.
     let buttonContent = event.target.textContent;
-
-    // IF buttonContent = integer or float
-    // IF totalCalculated = true AND symbol = null
-    // CALL clear to start new calculation
-    // ENDIF
-    // IF symbol = null AND totalCalculated = false
-    // SET firstNumber += buttonContent
-    // ELSE
-    // SET secondNumber += buttonContent
-    // ENDIF
-    // CALL updateDisplay passing buttonContent
-    // ENDIF
-
-    // IF buttonContent in ["+", "-", "/", "*"] AND symbol = null
-    // SET symbol = button content
-    // ENDIF
-
-    // IF buttonContent = "=" OR (buttonContent in ["+", "-", "/", "*"] AND symbol != null)
-    // INIT result
-    // SET result = value returned from CALL operate PASSING firstNumber, secondNumber, and symbol.
-    // CALL updateDisplay passing buttonContent
-    // SET firstNumber = result
-    // SET totalCalculated = true
-    // IF buttonContent in ["+", "-", "/", "*"]
-    // SET symbol = buttonContent
-    // ENDIF
-    // ENDIF
+    console.log(buttonContent);
 
     // Add to firstNumber or secondNumber when an integer or float is entered.
     if (isDigit(buttonContent)) {
-      if (firstNumber.length >= 12 || secondNumber.length >= 12) {
-        alert("Numbers cannot be longer than 12 digits")
-      }
-
       if (totalCalculated && symbol === null) {
         // CALL clear() to reset calculation.
         clear();
         updateDisplay("");
       }
-
-      // TODO: Limit length of first and second number
 
       // Continue to add to firstNumber until symbol is entered.
       if (symbol === null && totalCalculated === false && firstNumber.length <= 12) {
@@ -137,6 +117,15 @@ buttons.forEach((button) => {
         secondNumber += buttonContent;
         // Update display
         updateDisplay(secondNumber);
+      }
+    }
+
+    if (buttonContent === ".") {
+      if (symbol === null && !firstNumber.includes(".") && firstNumber.length > 0) {
+        console.log(". added to first number");
+        
+        firstNumber += "."
+        updateDisplay(firstNumber)
       }
     }
 
@@ -180,7 +169,7 @@ buttons.forEach((button) => {
 });
 
 // TODO:
-// Prevent divide by 0 errors.
 // Enable "." to allow users to enter a decimal number
+// Prevent divide by 0 errors.
 // Add "backspace" button to undo last input if wrong number entered.
 // Add keyboard support.
