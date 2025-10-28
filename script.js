@@ -49,9 +49,10 @@ function isDigit(str) {
 function updateDisplay(number) {
   // INIT displayElement = GET display from DOM
   // SET displayElement = number
-
+  console.log(number);
+  
   // Ensure that numbers ending in a decimal are updated in the display.
-  if (String(number).charAt(number.length -1) !== ".") {
+  if (String(number).charAt(number.length -1) !== "." && number !== "") {
     // Round number to two decimal places.
     number = parseFloat(Number(number).toFixed(2))
   }
@@ -125,12 +126,14 @@ buttons.forEach((button) => {
       }
     }
 
+    // Allow decimal numbers to be entered.
     if (buttonContent === ".") {
-      if (symbol === null && !firstNumber.includes(".") && firstNumber.length > 0) {
-        console.log(". added to first number");
-        
+      if (symbol === null && !firstNumber.includes(".") && firstNumber.length > 0) {        
         firstNumber += "."
         updateDisplay(firstNumber)
+      } else if (!secondNumber.includes(".") && secondNumber.length > 0) {
+        secondNumber += "."
+        updateDisplay(secondNumber)
       }
     }
 
@@ -169,12 +172,11 @@ buttons.forEach((button) => {
 
     if (buttonContent === "CLEAR") {
       clear();
-      updateDisplay("");
+      updateDisplay(firstNumber);
     }
   });
 });
 
 // TODO:
-// Prevent divide by 0 errors.
 // Add "backspace" button to undo last input if wrong number entered.
 // Add keyboard support.
