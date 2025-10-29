@@ -123,7 +123,7 @@ buttons.forEach((button) => {
 
     // Allow decimal numbers to be entered.
     if (buttonContent === ".") {
-      if (symbol === null && !firstNumber.includes(".") && firstNumber.length > 0) {        
+      if (symbol === null && !firstNumber.includes(".") && firstNumber.length > 0 && !totalCalculated) {        
         firstNumber += "."
         updateDisplay(firstNumber)
       } else if (!secondNumber.includes(".") && secondNumber.length > 0) {
@@ -135,7 +135,6 @@ buttons.forEach((button) => {
     // Set the symbol when a valid operator is entered.
     if (symbolEntered(buttonContent) && symbol === null) {
       symbol = buttonContent;
-      // TODO: highlight selected symbol in the DOM.
     }
 
     // Perform calculation if "=" is pressed or symbol is pressed for completed equation.
@@ -186,3 +185,4 @@ buttons.forEach((button) => {
 // Add keyboard support.
 // Add history button to allow user to return to previous equations.
 // Implement rounding of first and second number during input.
+// Keep selected symbol highlighted until result is calculated.
