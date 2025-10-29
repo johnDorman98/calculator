@@ -147,7 +147,7 @@ buttons.forEach((button) => {
       let result = operate(firstNumber, secondNumber, symbol);
       
       // Use the result as the firstNumber in follow equation.
-      firstNumber = result;
+      firstNumber = String(result);
 
       // Update display with new firstNumber.
       updateDisplay(firstNumber);
@@ -171,7 +171,7 @@ buttons.forEach((button) => {
     }
 
     if (buttonContent === "UNDO") {
-      if (firstNumber && symbol === null) {
+      if (firstNumber && symbol === null && !totalCalculated) {
         firstNumber = firstNumber.slice(0, firstNumber.length-1)
         updateDisplay(firstNumber) 
       } else if (secondNumber && symbol !== null) {
@@ -184,3 +184,4 @@ buttons.forEach((button) => {
 
 // TODO:
 // Add keyboard support.
+// Add history button to allow user to return to previous equations.
