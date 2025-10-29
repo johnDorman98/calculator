@@ -47,10 +47,6 @@ function isDigit(str) {
 }
 
 function updateDisplay(number) {
-  // INIT displayElement = GET display from DOM
-  // SET displayElement = number
-  console.log(number);
-  
   // Ensure that numbers ending in a decimal are updated in the display.
   if (String(number).charAt(number.length -1) !== "." && number !== "") {
     // Round number to two decimal places.
@@ -99,7 +95,6 @@ buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     // Use button content to identify button pressed.
     let buttonContent = event.target.textContent;
-    console.log(buttonContent);
 
     // Add to firstNumber or secondNumber when an integer or float is entered.
     if (isDigit(buttonContent)) {
@@ -174,9 +169,18 @@ buttons.forEach((button) => {
       clear();
       updateDisplay(firstNumber);
     }
+
+    if (buttonContent === "UNDO") {
+      if (firstNumber && symbol === null) {
+        firstNumber = firstNumber.slice(0, firstNumber.length-1)
+        updateDisplay(firstNumber) 
+      } else if (secondNumber && symbol !== null) {
+        secondNumber = secondNumber.slice(0, secondNumber.length-1)
+        updateDisplay(secondNumber)
+      }
+    }
   });
 });
 
 // TODO:
-// Add "backspace" button to undo last input if wrong number entered.
 // Add keyboard support.
