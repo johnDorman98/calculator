@@ -185,3 +185,4 @@ buttons.forEach((button) => {
 // TODO:
 // Add keyboard support.
 // Add history button to allow user to return to previous equations.
+// Implement rounding of first and second number during input.
